@@ -59,7 +59,7 @@ rm -rf %{buildroot}
 %dir %{_kde_appsdir}/soundkonverter
 %{_kde_appsdir}/soundkonverter/*
 %{_kde_bindir}/soundkonverter
-%{_kde_libdir}/soundkonverter/libsoundkonvertercore.so
+%{_kde_libdir}/libsoundkonvertercore.so
 %{_kde_services}/soundkonverter_*
 %{_kde_libdir}/kde4/soundkonverter_*.so
 %{_kde_applicationsdir}/soundkonverter.desktop
