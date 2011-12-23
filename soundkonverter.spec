@@ -1,11 +1,11 @@
 Name:           soundkonverter
-Version:        1.2.0
+Version:        1.2.1
 Release:        %mkrel 1
 License:        GPLv2
 Group:          Sound
-Summary:        An audio file converter, cd ripper and Replay Gain tool
+Summary:        An audio file converter, CD ripper and Replay Gain tool
 URL:            http://kde-apps.org/content/show.php?content=29024
-Source:         %{name}-%{version}.tar.gz
+Source0:         %{name}-%{version}.tar.gz
  
 BuildRequires:  kdelibs4-devel
 BuildRequires:  taglib-devel >= 1.4
@@ -30,8 +30,9 @@ The key features are:
  Replay Gain calculation
  CD ripping
  
-It is extendable by plugins and supports many backends.
-soundKonverter supports reading and writing tags for many formats, so the tags are preserved when converting files.
+It is extendable by plug-ins and supports many backends.
+soundKonverter supports reading and writing tags for many formats, so the tags
+are preserved when converting files.
  
 %prep
 %setup -q
@@ -41,9 +42,9 @@ soundKonverter supports reading and writing tags for many formats, so the tags a
 %make
  
 %install
-cd build
+pushd build
 %makeinstall_std
-cd ..
+popd
  
 %find_lang %{name}
  
@@ -58,7 +59,7 @@ rm -rf %{buildroot}
 %dir %{_kde_appsdir}/soundkonverter
 %{_kde_appsdir}/soundkonverter/*
 %{_kde_bindir}/soundkonverter
-%{_kde_libdir}/libsoundkonvertercore.so
+%{_kde_libdir}/soundkonverter/libsoundkonvertercore.so
 %{_kde_services}/soundkonverter_*
 %{_kde_libdir}/kde4/soundkonverter_*.so
 %{_kde_applicationsdir}/soundkonverter.desktop
