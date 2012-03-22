@@ -1,11 +1,12 @@
 Name:           soundkonverter
 Version:        1.2.1
-Release:        %mkrel 1
+Release:        %mkrel 2
 License:        GPLv2
 Group:          Sound
 Summary:        An audio file converter, CD ripper and Replay Gain tool
 URL:            http://kde-apps.org/content/show.php?content=29024
-Source0:         %{name}-%{version}.tar.gz
+Source0:        %{name}-%{version}.tar.gz
+Source1:	ru.po
  
 BuildRequires:  kdelibs4-devel
 BuildRequires:  taglib-devel >= 1.4
@@ -36,6 +37,7 @@ are preserved when converting files.
  
 %prep
 %setup -q
+cp %{SOURCE1} po/
  
 %build
 %cmake_kde4
