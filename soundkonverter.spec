@@ -1,6 +1,6 @@
 Name:           soundkonverter
-Version:        1.2.1
-Release:        %mkrel 2
+Version:        1.4.0
+Release:        %mkrel 1
 License:        GPLv2
 Group:          Sound
 Summary:        An audio file converter, CD ripper and Replay Gain tool
@@ -49,9 +49,6 @@ pushd build
 popd
  
 %find_lang %{name}
- 
-%clean
-rm -rf %{buildroot}
  
 %files -f %{name}.lang
 %defattr(-,root,root,-)
