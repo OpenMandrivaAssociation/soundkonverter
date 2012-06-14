@@ -1,5 +1,5 @@
 Name:           soundkonverter
-Version:        1.5.0
+Version:        1.6.1
 Release:        1
 License:        GPLv2
 Group:          Sound
