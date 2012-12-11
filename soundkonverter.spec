@@ -1,66 +1,90 @@
-Name:           soundkonverter
-Version:        1.6.1
-Release:        1
-License:        GPLv2
-Group:          Sound
-Summary:        An audio file converter, CD ripper and Replay Gain tool
-URL:            http://kde-apps.org/content/show.php?content=29024
-Source0:        %{name}-%{version}.tar.gz
-Source1:	ru.po
- 
+%define name	soundkonverter
+%define	version	1.6.4
+%define release	1
+
+Name:		%{name}
+Version:	%{version}
+Release:	%{release}
+Summary:	An audio file converter, CD ripper
+Group:		Sound
+License:	GPLv2
+URL:		https://gitorious.org/soundkonverter/soundkonverter
+Source0:	https://gitorious.org/soundkonverter/soundkonverter/blobs/raw/180e777aa3d91456ac386868a1e324ca28649e2e/release/soundkonverter-%{version}.tar.gz
+Source1:	soundkonverter.desktop
+BuildRequires:  cdda-devel 
+BuildRequires:  libkcddb-devel
+BuildRequires:  pkgconfig(libcdio)
+BuildRequires:  pkgconfig(taglib) >= 1.4 
 BuildRequires:  kdelibs4-devel
-BuildRequires:  taglib-devel >= 1.4
-BuildRequires:  kdemultimedia4-devel
-BuildRequires:  cdda-devel
- 
-Requires:       flac
+#BuildRequires:  kdemultimedia4-devel 
+BuildRequires:  cmake 
+BuildRequires:  gcc 
+BuildRequires:  gcc-c++ 
+BuildRequires:  automoc4
 Requires:       cdparanoia
+Requires:       flac
 Requires:       speex
-Requires:       fluidsynth
+Requires:       TiMidity++
 Requires:       vorbis-tools
 Requires:       wavpack
-Requires:       vorbisgain
-Suggests:       ffmpeg
+Requires:       mplayer
+Requires:       faac
+Requires:       faad2
+Requires:       ffmpeg
+Requires:       lame
+Requires:       mac
+Requires:       mppenc 
+Requires:       fluidsynth
+Requires:       twolame
+# suggested requires on mrb to be imported in restricted eventually 
+Suggests:       shorten
+Suggests:       vorbisgain
+Suggests:       mppdec
+Suggests:       aacgain
+Suggests:       neroaac
+Suggests:       flac123
+Suggests:       aften ttaenc
 Suggests:       mp3gain
- 
+
 %description
-SoundKonverter is a frontend to various audio converters.
- 
-The key features are:
- Audio file conversion
- Replay Gain calculation
- CD ripping
- 
-It is extendable by plug-ins and supports many backends.
-soundKonverter supports reading and writing tags for many formats, so the tags
-are preserved when converting files.
- 
+An audio file converter, CD ripper and
+replay gain tool GUI for various backends
+
 %prep
 %setup -q
-cp %{SOURCE1} po/
- 
+
 %build
-%cmake_kde4
+%cmake_kde4 
 %make
- 
+
 %install
-pushd build
-%makeinstall_std
-popd
- 
+%makeinstall_std -C build DESTDIR=%{buildroot} 
+
+rm -rf %{buildroot}%{_datadir}/applications/kde4/soundkonverter.desktop
+
+install -p -m 755  %{SOURCE1} %{buildroot}%{_datadir}/applications/kde4/soundkonverter.desktop
+
+
 %find_lang %{name}
- 
+
+
 %files -f %{name}.lang
 %doc CHANGELOG README
-%dir %{_kde_appsdir}/solid
-%dir %{_kde_appsdir}/solid/actions
-%dir %{_kde_appsdir}/soundkonverter
-%{_kde_appsdir}/soundkonverter/*
-%{_kde_bindir}/soundkonverter
-%{_kde_libdir}/libsoundkonvertercore.so
-%{_kde_services}/soundkonverter_*
-%{_kde_libdir}/kde4/soundkonverter_*.so
-%{_kde_applicationsdir}/soundkonverter.desktop
-%{_kde_iconsdir}/*/*x*/apps/*.png
-%{_kde_servicetypes}/soundkonverter_*.desktop
-%{_kde_appsdir}/solid/actions/soundkonverter-rip-audiocd.desktop
+%dir %{_datadir}/apps/solid
+%dir %{_datadir}/apps/solid/actions
+%dir %{_datadir}/apps/soundkonverter
+%{_datadir}/apps/soundkonverter/*
+%{_bindir}/soundkonverter
+%{_libdir}/libsoundkonvertercore.so
+%{_datadir}/kde4/services/soundkonverter_*
+%{_libdir}/kde4/soundkonverter_*
+%{_datadir}/applications/kde4/soundkonverter.desktop
+%{_datadir}/icons/hicolor/16x16/apps/*.png                                                                                    
+%{_datadir}/icons/hicolor/22x22/apps/*.png                                                                                    
+%{_datadir}/icons/hicolor/32x32/apps/*.png                                                                                    
+%{_datadir}/icons/hicolor/48x48/apps/*.png                                                                                    
+%{_datadir}/icons/hicolor/64x64/apps/*.png  
+%{_datadir}/kde4/servicetypes/soundkonverter_codecplugin.desktop
+%{_datadir}/kde4/servicetypes/soundkonverter_replaygainplugin.desktop
+%{_datadir}/kde4/servicetypes/soundkonverter_ripperplugin.desktop
+%{_datadir}/apps/solid/actions/soundkonverter-rip-audiocd.desktop
