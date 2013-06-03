@@ -1,5 +1,5 @@
 %define name	soundkonverter
-%define	version	1.6.4
+%define	version	2.0.2
 %define release	1
 
 Name:		%{name}
@@ -87,4 +87,5 @@ install -p -m 755  %{SOURCE1} %{buildroot}%{_datadir}/applications/kde4/soundkon
 %{_datadir}/kde4/servicetypes/soundkonverter_codecplugin.desktop
 %{_datadir}/kde4/servicetypes/soundkonverter_replaygainplugin.desktop
 %{_datadir}/kde4/servicetypes/soundkonverter_ripperplugin.desktop
+%{_datadir}/kde4/servicetypes/soundkonverter_filterplugin.desktop	
 %{_datadir}/apps/solid/actions/soundkonverter-rip-audiocd.desktop
