@@ -1,91 +1,102 @@
-%define name	soundkonverter
-%define	version	2.0.2
-%define release	1
-
-Name:		%{name}
-Version:	%{version}
-Release:	%{release}
-Summary:	An audio file converter, CD ripper
+Summary:	An audio file converter, CD ripper and replay gain tool
+Name:		soundkonverter
+Version:	2.0.4
+Release:	1
+License:	GPLv2+
 Group:		Sound
-License:	GPLv2
-URL:		https://gitorious.org/soundkonverter/soundkonverter
+Url:		https://gitorious.org/soundkonverter/soundkonverter
 Source0:	https://gitorious.org/soundkonverter/soundkonverter/blobs/raw/180e777aa3d91456ac386868a1e324ca28649e2e/release/soundkonverter-%{version}.tar.gz
 Source1:	soundkonverter.desktop
-BuildRequires:  cdda-devel 
-BuildRequires:  libkcddb-devel
-BuildRequires:  pkgconfig(libcdio)
-BuildRequires:  pkgconfig(taglib) >= 1.4 
-BuildRequires:  kdelibs4-devel
-#BuildRequires:  kdemultimedia4-devel 
-BuildRequires:  cmake 
-BuildRequires:  gcc 
-BuildRequires:  gcc-c++ 
-BuildRequires:  automoc4
-Requires:       cdparanoia
-Requires:       flac
-Requires:       speex
-Requires:       TiMidity++
-Requires:       vorbis-tools
-Requires:       wavpack
-Requires:       mplayer
-Requires:       faac
-Requires:       faad2
-Requires:       ffmpeg
-Requires:       lame
-Requires:       mac
-Requires:       mppenc 
-Requires:       fluidsynth
-Requires:       twolame
-# suggested requires on mrb to be imported in restricted eventually 
-Suggests:       shorten
-Suggests:       vorbisgain
-Suggests:       mppdec
-Suggests:       aacgain
-Suggests:       neroaac
-Suggests:       flac123
-Suggests:       aften ttaenc
-Suggests:       mp3gain
+# !!! Make sure to update this patch on EVERY version update !!!_
+Patch0:		soundkonverter-2.0.4-soname.patch
+BuildRequires:	cmake
+BuildRequires:	cdda-devel
+BuildRequires:	libkcddb-devel
+BuildRequires:	kdelibs4-devel
+BuildRequires:	pkgconfig(libcdio)
+BuildRequires:	pkgconfig(taglib) >= 1.4
+Requires:	cdparanoia
+Requires:	flac
+Requires:	fluidsynth
+Requires:	ffmpeg
+Requires:	opus-tools
+Requires:	mplayer
+Requires:	mppenc
+Requires:	speex
+Requires:	TiMidity++
+Requires:	twolame
+Requires:	vorbis-tools
+Requires:	wavpack
+# suggested requires on mrb to be imported in restricted eventually
+Suggests:	aacgain
+Suggests:	aften
+Suggests:	faac
+Suggests:	faad2
+Suggests:	flac123
+Suggests:	lame
+Suggests:	mac
+Suggests:	mp3gain
+Suggests:	mppdec
+Suggests:	neroaac
+Suggests:	shorten
+Suggests:	ttaenc
+Suggests:	vorbisgain
+# Wrong library package
+Conflicts:	%{_lib}soundkonverter < 2.0.4
 
 %description
-An audio file converter, CD ripper and
-replay gain tool GUI for various backends
-
-%prep
-%setup -q
-
-%build
-%cmake_kde4 
-%make
-
-%install
-%makeinstall_std -C build DESTDIR=%{buildroot} 
-
-rm -rf %{buildroot}%{_datadir}/applications/kde4/soundkonverter.desktop
-
-install -p -m 755  %{SOURCE1} %{buildroot}%{_datadir}/applications/kde4/soundkonverter.desktop
-
-
-%find_lang %{name}
-
+An audio file converter, CD ripper and replay gain tool GUI for various
+back-ends.
 
 %files -f %{name}.lang
 %doc CHANGELOG README
-%dir %{_datadir}/apps/solid
-%dir %{_datadir}/apps/solid/actions
-%dir %{_datadir}/apps/soundkonverter
-%{_datadir}/apps/soundkonverter/*
-%{_bindir}/soundkonverter
-%{_libdir}/libsoundkonvertercore.so
-%{_datadir}/kde4/services/soundkonverter_*
-%{_libdir}/kde4/soundkonverter_*
-%{_datadir}/applications/kde4/soundkonverter.desktop
-%{_datadir}/icons/hicolor/16x16/apps/*.png                                                                                    
-%{_datadir}/icons/hicolor/22x22/apps/*.png                                                                                    
-%{_datadir}/icons/hicolor/32x32/apps/*.png                                                                                    
-%{_datadir}/icons/hicolor/48x48/apps/*.png                                                                                    
-%{_datadir}/icons/hicolor/64x64/apps/*.png  
-%{_datadir}/kde4/servicetypes/soundkonverter_codecplugin.desktop
-%{_datadir}/kde4/servicetypes/soundkonverter_replaygainplugin.desktop
-%{_datadir}/kde4/servicetypes/soundkonverter_ripperplugin.desktop
-%{_datadir}/kde4/servicetypes/soundkonverter_filterplugin.desktop	
-%{_datadir}/apps/solid/actions/soundkonverter-rip-audiocd.desktop
+%{_kde_bindir}/%{name}
+%{_kde_appsdir}/%{name}
+%{_kde_appsdir}/solid/actions/%{name}-*
+%{_kde_applicationsdir}/%{name}.desktop
+%{_kde_iconsdir}/hicolor/*/apps/*.png
+%{_kde_services}/%{name}_*
+%{_kde_servicetypes}/%{name}_*
+# codecs, filters etc
+%{_kde_libdir}/kde4/soundkonverter_*.so
+
+#----------------------------------------------------------------------------
+
+%define major 2
+%define libsoundkonvertercore %mklibname soundkonvertercore %{major}
+
+%package -n %{libsoundkonvertercore}
+Summary:	Library for %{name}
+Group:		System/Libraries
+Obsoletes:	%{_lib}soundkonverter < 2.0.4
+
+%description -n %{libsoundkonvertercore}
+This package provides the library for %{name}.
+
+%files -n %{libsoundkonvertercore}
+%{_kde_libdir}/libsoundkonvertercore.so.%{major}*
+
+#----------------------------------------------------------------------------
+
+%prep
+%setup -q
+%patch0 -p1
+# fix debug linting more then 100 w
+find . -type f -exec chmod -x {} \;
+
+%build
+%cmake_kde4
+%make
+
+%install
+%makeinstall_std -C build
+
+# replace desktop file
+rm -f %{buildroot}%{_kde_applicationsdir}/%{name}.desktop
+install -m 644 %{SOURCE1} %{buildroot}%{_kde_applicationsdir}/%{name}.desktop
+
+# We don't need it as there are no headers anyway
+rm -f %{buildroot}%{_kde_libdir}/libsoundkonvertercore.so
+
+%find_lang %{name}
+

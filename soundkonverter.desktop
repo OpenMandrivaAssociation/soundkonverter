@@ -12,5 +12,5 @@ GenericName[hu]=Audiofájl-konverter, CD-beolvasó és hangerő-korrekciós eszk
 GenericName[pt]=Conversor de áudio, extração de CD e análise Replay Gain
 GenericName[ru]=Утилита для преобразования аудиоформатов, риппинга CD и выравнивания громкости
 Terminal=false
-Categories=X-MandrivaLinux-Multimedia-Video;AudioVideo;Video;
+Categories=AudioVideo;Video;AudioVideoEditing;Qt;
 X-DocPath=http://kde-apps.org/content/show.php?content=29024

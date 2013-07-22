@@ -1,0 +1,11 @@
+diff -urN soundkonverter-2.0.4-orig/CMakeLists.txt soundkonverter-2.0.4-patched/CMakeLists.txt
+--- soundkonverter-2.0.4-orig/CMakeLists.txt	2013-01-20 01:13:39.200806282 +1100
++++ soundkonverter-2.0.4-patched/CMakeLists.txt	2013-07-22 23:45:08.997501255 +1100
+@@ -45,6 +45,7 @@
+ target_link_libraries(soundkonvertercore ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KIO_LIBS})
+ install(TARGETS soundkonvertercore DESTINATION ${LIB_INSTALL_DIR})
+ 
++set_target_properties(soundkonvertercore PROPERTIES VERSION 2.0.4 SOVERSION 2)
+ 
+ set(soundkonverter_SRCS
+    configdialog/configdialog.cpp
