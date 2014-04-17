@@ -1,14 +1,14 @@
 Summary:	An audio file converter, CD ripper and replay gain tool
 Name:		soundkonverter
-Version:	2.0.4
-Release:	1
+Version:	2.1.1
+Release:	3
 License:	GPLv2+
 Group:		Sound
 Url:		https://gitorious.org/soundkonverter/soundkonverter
-Source0:	https://gitorious.org/soundkonverter/soundkonverter/blobs/raw/180e777aa3d91456ac386868a1e324ca28649e2e/release/soundkonverter-%{version}.tar.gz
+Source0:	https://github.com/HessiJames/soundkonverter/archive/v%{version}.tar.gz
 Source1:	soundkonverter.desktop
 # !!! Make sure to update this patch on EVERY version update !!!_
-Patch0:		soundkonverter-2.0.4-soname.patch
+Patch0:		soundkonverter-2.1.1-soname.patch
 BuildRequires:	cmake
 BuildRequires:	cdda-devel
 BuildRequires:	libkcddb-devel
@@ -42,14 +42,14 @@ Suggests:	shorten
 Suggests:	ttaenc
 Suggests:	vorbisgain
 # Wrong library package
-Conflicts:	%{_lib}soundkonverter < 2.0.4
+Conflicts:	%{_lib}soundkonverter < %{EVRD}
 
 %description
 An audio file converter, CD ripper and replay gain tool GUI for various
 back-ends.
 
 %files -f %{name}.lang
-%doc CHANGELOG README
+%doc src/CHANGELOG src/README
 %{_kde_bindir}/%{name}
 %{_kde_appsdir}/%{name}
 %{_kde_appsdir}/solid/actions/%{name}-*
@@ -68,27 +68,33 @@ back-ends.
 %package -n %{libsoundkonvertercore}
 Summary:	Library for %{name}
 Group:		System/Libraries
-Obsoletes:	%{_lib}soundkonverter < 2.0.4
+Obsoletes:	%{_lib}soundkonverter < 2.0.90
 
 %description -n %{libsoundkonvertercore}
 This package provides the library for %{name}.
 
 %files -n %{libsoundkonvertercore}
+%doc README.md
 %{_kde_libdir}/libsoundkonvertercore.so.%{major}*
 
 #----------------------------------------------------------------------------
-
+# src is the new base path for build since this rel.
 %prep
 %setup -q
 %patch0 -p1
+cd src
 # fix debug linting more then 100 w
 find . -type f -exec chmod -x {} \;
+cd -
 
 %build
+cd src
 %cmake_kde4
 %make
+cd -
 
 %install
+cd src
 %makeinstall_std -C build
 
 # replace desktop file
@@ -97,6 +103,18 @@ install -m 644 %{SOURCE1} %{buildroot}%{_kde_applicationsdir}/%{name}.desktop
 
 # We don't need it as there are no headers anyway
 rm -f %{buildroot}%{_kde_libdir}/libsoundkonvertercore.so
+cd -
+
+# lang scam
+cd tools
+sh extract_messages.sh
+cd -
+ln -s src/%{name}.lang %{name}.lang
 
 %find_lang %{name}
+
+
+
+
+
 

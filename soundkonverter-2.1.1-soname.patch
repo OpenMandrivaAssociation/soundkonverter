@@ -1,0 +1,14 @@
+┌─[ symbianflo @ symbianflo ] - [ Mandrivausers.ro ] 
+└─[ MRB:aint-no-shit $]: diff -up soundkonverter-2.1.0/src/CMakeLists.txt soundkonverter-2.1.0-patched/src/CMakeLists.txt
+--- soundkonverter-2.1.1/src/CMakeLists.txt 2013-01-19 15:13:39.200806282 +0100
++++ soundkonverter-2.1.1-patched/src/CMakeLists.txt 2014-04-17 23:20:52.734492945 +0100
+@@ -44,7 +44,8 @@ set(soundkonvertercore_SRCS
+ kde4_add_library(soundkonvertercore SHARED ${soundkonvertercore_SRCS})
+ target_link_libraries(soundkonvertercore ${KDE4_KDEUI_LIBS} ${KDE4_KFILE_LIBS} ${KDE4_KIO_LIBS})
+ install(TARGETS soundkonvertercore DESTINATION ${LIB_INSTALL_DIR})
+-
++ 
++set_target_properties(soundkonvertercore PROPERTIES VERSION 2.1.1 SOVERSION 2)
+ 
+ set(soundkonverter_SRCS
+    configdialog/configdialog.cpp
