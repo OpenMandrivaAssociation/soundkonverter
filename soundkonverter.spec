@@ -49,7 +49,6 @@ An audio file converter, CD ripper and replay gain tool GUI for various
 back-ends.
 
 %files -f %{name}.lang
-%doc CHANGELOG README
 %{_kde_bindir}/%{name}
 %{_kde_appsdir}/%{name}
 %{_kde_appsdir}/solid/actions/%{name}-*
