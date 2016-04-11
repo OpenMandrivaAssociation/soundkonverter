@@ -1,14 +1,14 @@
 Summary:	An audio file converter, CD ripper and replay gain tool
 Name:		soundkonverter
-Version:	2.0.4
-Release:	2
+Version:	2.2.0
+Release:	1
 License:	GPLv2+
 Group:		Sound
-Url:		https://gitorious.org/soundkonverter/soundkonverter
-Source0:	https://gitorious.org/soundkonverter/soundkonverter/blobs/raw/180e777aa3d91456ac386868a1e324ca28649e2e/release/soundkonverter-%{version}.tar.gz
+Url:		https://github.com/HessiJames/soundkonverter/
+Source0:	https://github.com/HessiJames/soundkonverter/archive/v%{version}.tar.gz
 Source1:	soundkonverter.desktop
 # !!! Make sure to update this patch on EVERY version update !!!_
-Patch0:		soundkonverter-2.0.4-soname.patch
+#Patch0:		soundkonverter-2.0.4-soname.patch
 BuildRequires:	cmake
 BuildRequires:	cdda-devel
 BuildRequires:	libkcddb-devel
@@ -53,6 +53,7 @@ back-ends.
 %{_kde_bindir}/%{name}
 %{_kde_appsdir}/%{name}
 %{_kde_appsdir}/solid/actions/%{name}-*
+%{_datadir}/appdata/soundkonverter.appdata.xml
 %{_kde_applicationsdir}/%{name}.desktop
 %{_kde_iconsdir}/hicolor/*/apps/*.png
 %{_kde_services}/%{name}_*
@@ -62,7 +63,7 @@ back-ends.
 
 #----------------------------------------------------------------------------
 
-%define major 2
+%define major 0
 %define libsoundkonvertercore %mklibname soundkonvertercore %{major}
 
 %package -n %{libsoundkonvertercore}
@@ -80,15 +81,18 @@ This package provides the library for %{name}.
 
 %prep
 %setup -q
-%patch0 -p1
+%apply_patches
 # fix debug linting more then 100 w
 find . -type f -exec chmod -x {} \;
 
 %build
+pushd src
 %cmake_kde4
 %make
+popd
 
 %install
+pushd src
 %makeinstall_std -C build
 
 # replace desktop file
@@ -97,6 +101,7 @@ install -m 644 %{SOURCE1} %{buildroot}%{_kde_applicationsdir}/%{name}.desktop
 
 # We don't need it as there are no headers anyway
 rm -f %{buildroot}%{_kde_libdir}/libsoundkonvertercore.so
+popd
 
 %find_lang %{name}
 
