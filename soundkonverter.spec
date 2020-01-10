@@ -79,7 +79,7 @@ back-ends.
 
 %prep
 %setup -q
-%apply_patches
+%autopatch -p1
 # fix debug linting more then 100 w
 find . -type f -exec chmod -x {} \;
 
