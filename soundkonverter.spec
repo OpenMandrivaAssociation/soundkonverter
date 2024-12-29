@@ -1,7 +1,7 @@
 Summary:	An audio file converter, CD ripper and replay gain tool
 Name:		soundkonverter
 Version:	3.0.1
-Release:	1
+Release:	2
 License:	GPLv2+
 Group:		Sound
 Url:		https://github.com/HessiJames/soundkonverter/
