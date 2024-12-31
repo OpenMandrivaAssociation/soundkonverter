@@ -1,17 +1,16 @@
 Summary:	An audio file converter, CD ripper and replay gain tool
 Name:		soundkonverter
 Version:	3.0.1
-Release:	2
+Release:	3
 License:	GPLv2+
 Group:		Sound
 Url:		https://github.com/HessiJames/soundkonverter/
-Source0:	https://github.com/HessiJames/soundkonverter/archive/v%{version}.tar.gz
-# !!! Make sure to update this patch on EVERY version update !!!_
-#Patch0:		soundkonverter-2.0.4-soname.patch
+Source0:	https://github.com/HessiJames/soundkonverter/archive/v%{version}/%{name}-%{version}.tar.gz
+Patch0:  https://github.com/dfaust/soundkonverter/compare/master...nphantasm:soundkonverter:master.patch
 BuildRequires:	cmake
 BuildRequires:	cdda-devel
 BuildRequires:	pkgconfig(libcdio)
-BuildRequires:	pkgconfig(taglib) >= 1.4
+BuildRequires:	pkgconfig(taglib)
 BuildRequires:	cmake(ECM)
 BuildRequires:	cmake(KF5Cddb)
 BuildRequires:	cmake(Qt5Network)
@@ -78,8 +77,7 @@ back-ends.
 #----------------------------------------------------------------------------
 
 %prep
-%setup -q
-%autopatch -p1
+%autosetup -p1
 # fix debug linting more then 100 w
 find . -type f -exec chmod -x {} \;
 
