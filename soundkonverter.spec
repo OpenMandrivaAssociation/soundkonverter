@@ -7,7 +7,9 @@ Group:		Sound
 Url:		https://github.com/HessiJames/soundkonverter/
 Source0:	https://github.com/HessiJames/soundkonverter/archive/v%{version}/%{name}-%{version}.tar.gz
 # Support for Taglib 2
-Patch0:  https://github.com/dfaust/soundkonverter/commit/dd52d33046cf740415f8507a3ffd5b37dffc5a2c.patch
+Patch0:		https://github.com/dfaust/soundkonverter/commit/dd52d33046cf740415f8507a3ffd5b37dffc5a2c.patch
+# And Taglib 2's modified cmake files too
+Patch1:		soundkonverter-taglib-2.0.patch
 BuildRequires:	cmake
 BuildRequires:	cdda-devel
 BuildRequires:	pkgconfig(libcdio)

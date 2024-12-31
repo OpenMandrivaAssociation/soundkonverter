@@ -1,0 +1,13 @@
+diff -up soundkonverter-3.0.1/src/CMakeLists.txt.omv~ soundkonverter-3.0.1/src/CMakeLists.txt
+--- soundkonverter-3.0.1/src/CMakeLists.txt.omv~	2024-12-31 18:43:05.987252597 +0100
++++ soundkonverter-3.0.1/src/CMakeLists.txt	2024-12-31 18:44:45.528634323 +0100
+@@ -41,7 +41,8 @@ find_package(Cdparanoia REQUIRED)
+ 
+ set(TAGLIB_MIN_VERSION "1.10")
+ find_package(Taglib REQUIRED)
+-
++include_directories("/usr/include/taglib")
++set(TAGLIB_LIBRARIES "-ltag")
+ 
+ # plugins 
+ add_subdirectory(plugins)
