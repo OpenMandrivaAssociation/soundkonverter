@@ -6,7 +6,8 @@ License:	GPLv2+
 Group:		Sound
 Url:		https://github.com/HessiJames/soundkonverter/
 Source0:	https://github.com/HessiJames/soundkonverter/archive/v%{version}/%{name}-%{version}.tar.gz
-Patch0:  https://github.com/dfaust/soundkonverter/compare/master...nphantasm:soundkonverter:master.patch
+# Support for Taglib 2
+Patch0:  https://github.com/dfaust/soundkonverter/commit/dd52d33046cf740415f8507a3ffd5b37dffc5a2c.patch
 BuildRequires:	cmake
 BuildRequires:	cdda-devel
 BuildRequires:	pkgconfig(libcdio)
